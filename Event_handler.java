@@ -1,41 +1,29 @@
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import java.io.File;
 
-public class EventHandler extends Application {
+public class DynamicFilePath {
 
-    public static void main(String[] args) {
-        launch(args);
+    public static String getAbsolutePath(String fileName, String relativePath) {
+        // Get the current working directory
+        String currentDirectory = System.getProperty("user.dir");
+
+        // Create a File object with the current directory, relative path, and file name
+        File file = new File(currentDirectory, relativePath + File.separator + fileName);
+
+        // Get the absolute file path
+        String absolutePath = file.getAbsolutePath();
+
+        return absolutePath;
     }
 
-    @Override
-    public void start(Stage primaryStage) {
-        // Create a button
-        Button button = new Button("On Click");
+    public static void main(String[] args) {
+        // Specify the file name and relative path
+        String fileName = "file.txt";
+        String relativePath = "Documents";
 
-        // Create an event handler for the button
-        EventHandler<ActionEvent> eventHandler = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Button clicked!");
-            }
-        };
+        // Call the method to get the absolute file path
+        String absolutePath = getAbsolutePath(fileName, relativePath);
 
-        // Add the event handler to the button
-        button.setOnAction(eventHandler);
-
-        // Create a layout pane and add the button to it
-        StackPane root = new StackPane();
-        root.getChildren().add(button);
-
-        // Create a scene and set it as the primary stage's scene
-        Scene scene = new Scene(root, 200, 100);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Event!");
-        primaryStage.show();
+        // Print the absolute file path
+        System.out.println("Absolute path of the file: " + absolutePath);
     }
 }
